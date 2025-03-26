@@ -1,0 +1,73 @@
+---
+title: "JSC370 Final Project"
+author: "Matteo"
+output: 
+    html_document:
+        toc: TRUE
+        toc_float: TRUE
+---
+
+This is my JSC370 Final Project website.
+
+
+
+
+```{r load-data, echo=FALSE, warning=FALSE, message = FALSE}
+source("process_starbucks_data.R")
+knitr::opts_chunk$set(warning=FALSE)
+```
+
+
+
+### Figure 1
+```{r plot1, class.source="code-r-small", echo=FALSE}
+library(plotly)
+library(tidyverse)
+
+plot_geo(sb_locs_state, locationmode = 'USA-states') %>%
+  add_trace(
+    z = ~n_stores, 
+    locations = ~Abbreviation,
+    text = ~paste("Stores:", n_stores, "<br>State:", state),
+    colors = 'Blues'
+  ) %>%
+  layout(
+    title = "Starbucks Stores by State",
+    geo = list(
+      scope = 'usa',
+      projection = list(type = 'albers usa'),
+      showlakes = TRUE,
+      lakecolor = toRGB('white')
+    )
+  )
+```
+
+
+
+
+### Figure 2: Nutrition 3D Scatterplot
+
+```{r plot2, class.source="code-r-small", echo=FALSE}
+plot_ly(data = sb_nutr,
+        x = ~`Carb. (g)`,
+        y = ~Calories,
+        color = ~Category, 
+        type = 'scatter',
+        mode = 'markers') %>%
+  layout(title = "Calories vs Carbohydrates by Category",
+         xaxis = list(title = "Carbohydrates"),
+         yaxis = list(title = "Calories"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
